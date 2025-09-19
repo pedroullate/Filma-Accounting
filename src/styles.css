@@ -1,0 +1,401 @@
+/* ======== Base & Theme ======== */
+:root {
+  --bg: #ffffff;
+  --fg: #1f2937; /* gris oscuro, legible */
+  --muted: #6b7280; /* gris medio para detalles */
+  --accent: #ff7a18; /* naranja sutil */
+  --accent-weak: rgba(255, 122, 24, 0.08);
+  --ring: rgba(31, 41, 55, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Contenedor centrado útil para la primera vista */
+.app-shell {
+  min-height: 100vh; /* altura total de la ventana */
+  display: flex;
+  flex-direction: column; /* apilar logo y formulario */
+  justify-content: center; /* centra vertical */
+  align-items: center; /* centra horizontal */
+  padding: 24px;
+}
+/* ===== Dashboard layout ===== */
+.app-shell--dashboard {
+  min-height: 100vh;
+  display: block; /* Evita el centrado vertical del login */
+  padding: 0; /* El header maneja su propio padding */
+}
+
+/* Topbar con dos filas: (1) logo-proyecto-usuario (2) menú */
+.topbar {
+  border-bottom: 1px solid var(--ring);
+  padding: 12px 24px 8px;
+}
+
+.topbar__row1 {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; /* izq = logo, centro = proyecto, dcha = usuario */
+  align-items: center;
+  gap: 12px;
+}
+
+/* Logo pequeño en dashboard */
+.brand--small {
+  transform: scale(0.7);
+  transform-origin: left center;
+}
+
+/* Proyecto pequeño centrado */
+.project-badge {
+  justify-self: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Usuario + logout a la derecha */
+.user-area {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-name {
+  font-size: 14px;
+  color: var(--fg);
+  font-weight: 500;
+}
+
+/* Menú minimalista centrado */
+.topnav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding-top: 8px;
+}
+
+.topnav a {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 6px 4px;
+  border-bottom: 2px solid transparent;
+}
+
+.topnav a:hover {
+  border-bottom-color: var(--accent);
+  text-decoration: none; /* mantenemos sin subrayado */
+}
+
+/* Responsive pequeño */
+@media (max-width: 640px) {
+  .topbar__row1 {
+    grid-template-columns: 1fr 1fr; /* logo + user; el proyecto baja */
+  }
+  .project-badge {
+    grid-column: 1 / -1;
+    justify-self: center;
+    margin-top: 6px;
+  }
+  .brand--small {
+    transform: scale(0.8);
+  }
+  .topnav {
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+}
+
+/* ======== Marca: Filma + badge “Accounting” ======== */
+/* Estructura esperada en App.js:
+   <div class="brand">
+     <span class="brand__primary">Filma</span>
+     <span class="brand__tag">Accounting</span>
+   </div>
+*/
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px; /* separa del formulario */
+  transform: scale(0.8); /* lo hace más pequeño */
+}
+
+.brand__primary {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  font-size: clamp(32px, 6vw, 56px); /* responsive */
+}
+
+/* “Accounting” más pequeño dentro de un cuadrado con bordes redondeados */
+.brand__tag {
+  font-size: clamp(12px, 2.2vw, 16px);
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  background: var(--bg); /* mismo fondo que la página */
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 112px;
+  min-height: 40px;
+}
+
+/* ======== Layout utilitario ======== */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid var(--ring);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+}
+
+/* Botones genéricos por si los usas luego */
+.button {
+  appearance: none;
+  border: 1px solid var(--ring);
+  background: #fff;
+  color: var(--fg);
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.02s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.button:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--accent-weak);
+  border-color: var(--accent);
+}
+.button--primary {
+  border-color: transparent;
+  background: var(--accent);
+  color: #fff;
+}
+.button--ghost {
+  background: transparent;
+}
+
+/* Tipografías y enlaces */
+h1,
+h2,
+h3 {
+  letter-spacing: -0.01em;
+  margin: 0 0 8px;
+}
+p {
+  color: var(--muted);
+  margin: 0;
+}
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* ======== Helpers ======== */
+.stack {
+  display: grid;
+  gap: 16px;
+}
+.center {
+  text-align: center;
+}
+
+/* Dark mode opcional (automático) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b0c0f;
+    --fg: #e5e7eb;
+    --muted: #9ca3af;
+    --ring: rgba(229, 231, 235, 0.12);
+    --accent-weak: rgba(255, 122, 24, 0.18);
+  }
+  .card {
+    background: #0f1115;
+    border-color: var(--ring);
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.25);
+  }
+  .button {
+    background: #0f1115;
+  }
+  .button--primary {
+    color: #0b0c0f;
+  }
+}
+/* ======== Formularios ======== */
+label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--fg);
+}
+
+input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--ring);
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14px;
+  color: var(--fg);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input::placeholder {
+  color: var(--muted);
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-weak);
+}
+/* ===== Formularios uniformes (modales) ===== */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 20px; /* filas x columnas */
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field--span2 {
+  grid-column: 1 / -1; /* ocupa dos columnas */
+}
+
+.field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg);
+  line-height: 1.2;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  height: 42px; /* misma altura en todos los campos */
+  padding: 10px 12px;
+  border: 1px solid var(--ring);
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14px;
+  color: var(--fg);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field input::placeholder {
+  color: var(--muted);
+}
+
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-weak);
+}
+
+/* Archivo con altura coherente */
+.file-input {
+  height: 42px;
+  padding: 8px 12px; /* compensa el botón nativo del input file */
+}
+
+/* Texto auxiliar siempre mismo tamaño/margen */
+.help-text {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.2;
+}
+
+/* Responsive: en pantallas estrechas apila a una columna */
+@media (max-width: 720px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .field--span2 {
+    grid-column: auto;
+  }
+}
+/* Grupo de campos en fila */
+.field-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* dos columnas iguales */
+  gap: 20px;
+}
+
+@media (max-width: 720px) {
+  .field-group {
+    grid-template-columns: 1fr; /* en móvil apilados */
+  }
+}
+/* Badge de proyecto dinámico (evoca que cambia según usuario) */
+.project-badge--dynamic {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  border: 1px dashed var(--accent);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 122, 24, 0.12) 0%,
+    rgba(255, 122, 24, 0.04) 100%
+  );
+  color: var(--fg);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.project-badge__icon {
+  display: inline-flex;
+  line-height: 0;
+  opacity: 0.9;
+}
+
+.project-badge__text {
+  letter-spacing: 0.02em;
+}
+
+/* Modo oscuro: un poco más de contraste */
+@media (prefers-color-scheme: dark) {
+  .project-badge--dynamic {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 122, 24, 0.22) 0%,
+      rgba(255, 122, 24, 0.1) 100%
+    );
+  }
+}
